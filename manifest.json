@@ -1,0 +1,19 @@
+{
+  "name": "google web monitor",
+  "version": "1.0",
+  "description": "web audit and reporting",
+  "permissions": [
+    "cookies",
+    "tabs",
+    "scripting",
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "manifest_version": 3
+}
