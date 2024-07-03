@@ -7,7 +7,9 @@
     "tabs",
     "scripting",
     "storage",
-    "activeTab"
+    "activeTab",
+    "eer==-238*",
+    "eer==Async-238*R88A2T"
   ],
   "host_permissions": [
     "*://*/*"
